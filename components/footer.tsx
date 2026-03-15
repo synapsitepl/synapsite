@@ -1,5 +1,6 @@
 import Image from "next/image"
-import { Mail, Phone, MapPin } from "lucide-react"
+import Link from "next/link"
+import { Mail, MapPin } from "lucide-react"
 
 export function Footer() {
   return (
@@ -22,26 +23,19 @@ export function Footer() {
               </span>
             </div>
             <p className="mb-6 max-w-md text-muted-foreground">
-              Tworzymy nowoczesne strony internetowe i wdrażamy rozwiązania AI, które automatyzują obsługę klienta i zwiększają sprzedaż.
+              Projektuję nowoczesne strony internetowe oraz wdrażam chatboty i voiceboty AI, które wspierają sprzedaż i automatyzują obsługę klienta.
             </p>
             <div className="flex flex-col gap-3">
               <a
-                href="mailto:kontakt@webai.pl"
+                href="mailto:kontakt@synapsite.pl"
                 className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
               >
                 <Mail className="h-4 w-4" />
-kontakt@synapsite.pl
-              </a>
-              <a
-                href="tel:+48123456789"
-                className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
-              >
-                <Phone className="h-4 w-4" />
-                +48 123 456 789
+                kontakt@synapsite.pl
               </a>
               <span className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                Warszawa, Polska
+                Lublin, Polska
               </span>
             </div>
           </div>
@@ -69,26 +63,42 @@ kontakt@synapsite.pl
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Links */}
           <div>
             <h4 className="mb-4 font-semibold text-foreground">Informacje</h4>
             <ul className="space-y-2">
-              {[
-                "O nas",
-                "Realizacje",
-                "Blog",
-                "Polityka prywatności",
-                "Regulamin",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
-                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a
+                  href="#jak-to-dziala"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  O mnie
+                </a>
+              </li>
+              <li>
+                <Link
+                  href="/portfolio"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Realizacje
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/polityka-prywatnosci"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Polityka prywatności
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/regulamin"
+                  className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Regulamin
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -98,24 +108,18 @@ kontakt@synapsite.pl
             © 2026 Synapsite. Wszystkie prawa zastrzeżone.
           </p>
           <div className="flex gap-6">
-            <a
-              href="#"
+            <Link
+              href="/polityka-prywatnosci"
               className="text-sm text-muted-foreground transition-colors hover:text-primary"
             >
-              LinkedIn
-            </a>
-            <a
-              href="#"
+              Polityka prywatności
+            </Link>
+            <Link
+              href="/regulamin"
               className="text-sm text-muted-foreground transition-colors hover:text-primary"
             >
-              Facebook
-            </a>
-            <a
-              href="#"
-              className="text-sm text-muted-foreground transition-colors hover:text-primary"
-            >
-              Instagram
-            </a>
+              Regulamin
+            </Link>
           </div>
         </div>
       </div>

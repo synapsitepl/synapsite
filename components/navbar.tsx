@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils"
 import { ContactForm } from "@/components/contact-form"
 
 const navLinks = [
-  { label: "Jak pomagam", href: "#jak-to-dziala" },
+  { label: "Jak to działa", href: "#jak-to-dziala" },
   { label: "Oferta", href: "#cennik" },
-  { label: "Portfolio", href: "#portfolio" },
+  { label: "Portfolio", href: "/portfolio" },
   { label: "FAQ", href: "#faq" },
 ]
 
