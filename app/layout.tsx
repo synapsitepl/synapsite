@@ -10,22 +10,8 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: 'Synapsite | Strony WWW, Chatboty i Voiceboty AI',
   description: 'Synapsite - budujemy nowoczesne strony internetowe oraz wdrażamy chatboty i voiceboty AI dla firm. Automatyzacja obsługi klienta 24/7.',
-  generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
+    icon: '/favicon.ico',
     apple: '/apple-icon.png',
   },
 }
