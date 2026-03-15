@@ -42,24 +42,28 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
         return
       }
 
-      // Also save to our DB (non-blocking)
+      // Save to DB for admin panel
       const jsonData = {
         name: formData.get("name") as string,
         company: formData.get("company") as string || "",
         email: formData.get("email") as string,
         phone: formData.get("phone") as string || "",
-        serviceType: formData.get("service") as string || "ogólne",
+        serviceType: formData.get("service") as string || "",
         budget: formData.get("budget") as string || "",
         timeline: formData.get("timeline") as string || "",
         message: formData.get("message") as string,
         website: "",
       }
 
-      fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(jsonData),
-      }).catch(() => {})
+      try {
+        await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(jsonData),
+        })
+      } catch (dbErr) {
+        console.error("DB save failed:", dbErr)
+      }
 
       setIsSubmitting(false)
       setIsSubmitted(true)

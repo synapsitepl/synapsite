@@ -32,7 +32,7 @@ const contactSchema = z.object({
   serviceType: z.string().max(100).optional().default(""),
   budget: z.string().max(100).optional().default(""),
   timeline: z.string().max(100).optional().default(""),
-  message: z.string().min(10, "Wiadomość musi mieć min. 10 znaków").max(5000),
+  message: z.string().min(1, "Wiadomość jest wymagana").max(5000),
   website: z.string().max(0, "Bot detected").optional().default(""),
 })
 

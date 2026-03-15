@@ -36,24 +36,28 @@ export function InlineContactForm() {
         return
       }
 
-      // Also save to DB (non-blocking)
+      // Save to DB for admin panel
       const jsonData = {
         name: formData.get("name") as string,
         company: "",
         email: formData.get("email") as string,
         phone: formData.get("phone") as string || "",
-        serviceType: formData.get("service") as string || "ogólne",
+        serviceType: formData.get("service") as string || "",
         budget: "",
         timeline: "",
         message: formData.get("message") as string,
         website: "",
       }
 
-      fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(jsonData),
-      }).catch(() => {})
+      try {
+        await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(jsonData),
+        })
+      } catch (dbErr) {
+        console.error("DB save failed:", dbErr)
+      }
 
       setIsSubmitted(true)
     } catch {
