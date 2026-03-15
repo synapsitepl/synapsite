@@ -1,10 +1,14 @@
 "use client"
 
 import Image from "next/image"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight, Sparkles, Globe, Bot, Mic } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Hero() {
+  const scrollToContact = () => {
+    document.getElementById("kontakt-formularz")?.scrollIntoView({ behavior: "smooth" })
+  }
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden px-4 pt-24 pb-16">
       {/* Background grid */}
@@ -20,28 +24,45 @@ export function Hero() {
           <div className="text-center lg:text-left">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-2 backdrop-blur-sm">
               <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-sm text-muted-foreground">Agencja Web & AI</span>
+              <span className="text-sm text-muted-foreground">Strony WWW &amp; AI dla firm</span>
             </div>
             
             <h1 className="mb-6 text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              Nowoczesne strony internetowe i{" "}
+              Strony internetowe i{" "}
               <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                inteligentna automatyzacja AI
-              </span>{" "}
-              dla biznesu
+                boty AI
+              </span>
+              , które pomagają zdobywać klientów
             </h1>
             
-            <p className="mb-10 max-w-xl text-pretty text-lg text-muted-foreground lg:mx-0 mx-auto">
-              Budujemy błyskawiczne strony WWW oraz wdrażamy chatboty i voiceboty AI, które obsługują klientów i sprzedają 24/7.
+            <p className="mb-8 max-w-xl text-pretty text-lg text-muted-foreground lg:mx-0 mx-auto">
+              Projektuję nowoczesne strony internetowe oraz wdrażam chatboty i voiceboty AI, które wspierają sprzedaż, automatyzują obsługę klienta i oszczędzają czas Twojego zespołu.
             </p>
+
+            {/* Bullet points */}
+            <ul className="mb-8 space-y-3 text-left max-w-xl lg:mx-0 mx-auto">
+              <li className="flex items-start gap-3">
+                <Globe className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                <span className="text-muted-foreground">Strony WWW, które budują zaufanie i dobrze wyglądają na każdym urządzeniu</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Bot className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                <span className="text-muted-foreground">Chatboty AI, które odpowiadają klientom 24/7 i zbierają leady</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <Mic className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                <span className="text-muted-foreground">Voiceboty AI, które prowadzą rozmowy, umawiają terminy i odciążają firmę</span>
+              </li>
+            </ul>
             
             <div className="flex flex-col items-center gap-4 sm:flex-row lg:justify-start justify-center">
               <Button
                 size="lg"
                 className="group relative overflow-hidden bg-primary px-8 text-primary-foreground hover:bg-primary/90"
+                onClick={scrollToContact}
               >
                 <span className="relative z-10 flex items-center gap-2">
-                  Umów bezpłatną konsultację
+                  Zamów bezpłatny projekt
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
@@ -51,10 +72,15 @@ export function Hero() {
                 size="lg"
                 variant="outline"
                 className="border-border bg-transparent text-foreground hover:bg-secondary hover:text-foreground"
+                onClick={scrollToContact}
               >
-                Zobacz realizacje
+                Poproś o wycenę
               </Button>
             </div>
+
+            <p className="mt-4 text-sm text-muted-foreground/70 text-center lg:text-left">
+              Bez zobowiązań. Najpierw widzisz kierunek, potem decydujesz.
+            </p>
           </div>
           
           {/* Right side - Image with animation */}
@@ -64,7 +90,7 @@ export function Hero() {
               <div className="absolute inset-0 -z-10 scale-90 rounded-3xl bg-gradient-to-r from-primary/40 via-accent/30 to-primary/40 blur-3xl" />
               <Image
                 src="/hero-image.webp"
-                alt="AI i Web Development - nowoczesne rozwiązania"
+                alt="Strony internetowe i chatboty AI dla firm - Synapsite"
                 width={800}
                 height={600}
                 className="w-full h-auto object-contain drop-shadow-2xl"

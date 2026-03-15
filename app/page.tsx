@@ -5,6 +5,7 @@ import { HowItWorks } from "@/components/how-it-works"
 import { Pricing } from "@/components/pricing"
 import { Portfolio } from "@/components/portfolio"
 import { FAQ } from "@/components/faq"
+import { InlineContactForm } from "@/components/inline-contact-form"
 import { Footer } from "@/components/footer"
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <Pricing />
       <Portfolio />
       <FAQ />
+      <InlineContactForm />
       <Footer />
     </main>
   )

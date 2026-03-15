@@ -64,7 +64,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
       setTimeout(() => {
         setIsSubmitted(false)
         onClose()
-      }, 3000)
+      }, 4000)
     } catch {
       toast({
         title: "Błąd",
@@ -105,19 +105,19 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                 <Send className="h-8 w-8 text-primary" />
               </div>
               <h3 className="mb-2 text-xl font-semibold text-foreground">
-                Wiadomość wysłana!
+                Dziękuję za wiadomość!
               </h3>
               <p className="text-muted-foreground">
-                Odezwiemy się najszybciej jak to możliwe.
+                Wrócę do Ciebie tak szybko, jak to możliwe z propozycją kolejnych kroków.
               </p>
             </div>
           ) : (
             <>
               <h2 className="mb-2 text-2xl font-bold text-foreground">
-                Skontaktuj się z nami
+                Opowiedz krótko, czego potrzebujesz
               </h2>
               <p className="mb-6 text-muted-foreground">
-                Opisz swój projekt, a my odezwiemy się w ciągu 24h.
+                Napisz, czy interesuje Cię strona internetowa, chatbot AI, voicebot AI lub pełne rozwiązanie. Odpowiem z konkretną propozycją dalszych kroków.
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -129,13 +129,13 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="name" className="mb-2 block text-sm font-medium text-foreground">
-                      Imię i nazwisko *
+                      Imię / nazwa firmy *
                     </label>
                     <Input
                       id="name"
                       name="name"
                       required
-                      placeholder="Jan Kowalski"
+                      placeholder="Jan Kowalski lub Firma ABC"
                       className="bg-secondary/50 border-border"
                     />
                     {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name[0]}</p>}
@@ -156,7 +156,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
                     <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
-                      Email *
+                      Adres e-mail *
                     </label>
                     <Input
                       id="email"
@@ -170,7 +170,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                   </div>
                   <div>
                     <label htmlFor="phone" className="mb-2 block text-sm font-medium text-foreground">
-                      Telefon
+                      Numer telefonu
                     </label>
                     <Input
                       id="phone"
@@ -184,7 +184,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
 
                 <div>
                   <label htmlFor="service" className="mb-2 block text-sm font-medium text-foreground">
-                    Czym jesteś zainteresowany? *
+                    Czego potrzebujesz? *
                   </label>
                   <select
                     id="service"
@@ -193,11 +193,12 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                     className="w-full rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="">Wybierz usługę...</option>
-                    <option value="www">Strona WWW</option>
+                    <option value="landing-page">Landing page / one page</option>
+                    <option value="strona-firmowa">Strona firmowa</option>
                     <option value="sklep">Sklep internetowy</option>
                     <option value="chatbot">Chatbot AI</option>
                     <option value="voicebot">Voicebot AI</option>
-                    <option value="automatyzacja">Automatyzacja procesów</option>
+                    <option value="pelne-rozwiazanie">Pełne rozwiązanie (strona + AI)</option>
                     <option value="inne">Inne</option>
                   </select>
                   {errors.serviceType && <p className="mt-1 text-xs text-destructive">{errors.serviceType[0]}</p>}
@@ -242,16 +243,17 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
 
                 <div>
                   <label htmlFor="message" className="mb-2 block text-sm font-medium text-foreground">
-                    Wiadomość *
+                    Opisz krótko swój projekt *
                   </label>
                   <Textarea
                     id="message"
                     name="message"
                     required
                     rows={4}
-                    placeholder="Opisz swój projekt lub zadaj pytanie..."
+                    placeholder="Opisz krótko swój projekt lub zadaj pytanie..."
                     className="bg-secondary/50 border-border resize-none"
                   />
+                  <p className="mt-1 text-xs text-muted-foreground">Im więcej konkretów, tym lepsza wycena</p>
                   {errors.message && <p className="mt-1 text-xs text-destructive">{errors.message[0]}</p>}
                 </div>
 

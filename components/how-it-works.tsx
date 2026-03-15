@@ -1,56 +1,37 @@
 "use client"
 
-import { FileText, CheckCircle, Code, Rocket, CreditCard, Receipt, Banknote } from "lucide-react"
+import { Shield, Eye, Search, Bot, Settings, Award, MessageSquare, Smartphone, HelpCircle, Target, FileText, Pencil, MessageCircle, Code, Rocket, Users, Briefcase, User, Lightbulb, Building } from "lucide-react"
 
-const steps = [
-  {
-    number: "01",
-    title: "Projekt Graficzny",
-    description: "Po zamówieniu i dostarczeniu materiałów - wykonam dla Państwa projekt graficzny (statyczny) strony głównej.",
-    icon: FileText,
-  },
-  {
-    number: "02",
-    title: "Twoja Decyzja",
-    description: "Po zapoznaniu się z projektem i ew. wprowadzeniu poprawek, zdecydują Państwo czy rozpoczynamy współpracę i czy mam tworzyć stronę.",
-    icon: CheckCircle,
-  },
-  {
-    number: "03",
-    title: "Realizacja i Kodowanie",
-    description: "Jeżeli tak, rozpoczynam kodowanie i w trakcie realizacji podsyłam zrealizowane podstrony do oceny i poprawek.",
-    icon: Code,
-  },
-  {
-    number: "04",
-    title: "Wdrożenie",
-    description: "Po skończeniu podstron i akceptacji przez Państwa, wdrażam stronę na Wasz serwer.",
-    icon: Rocket,
-  },
+const trustPoints = [
+  { icon: Eye, text: "estetyczny, profesjonalny design" },
+  { icon: MessageSquare, text: "czytelny przekaz sprzedażowy" },
+  { icon: Search, text: "techniczne przygotowanie pod SEO" },
+  { icon: Bot, text: "automatyzację obsługi dzięki AI" },
+  { icon: Settings, text: "wygodne zarządzanie treścią" },
 ]
 
-const payments = [
-  {
-    title: "Projekt Graficzny",
-    value: "FREE",
-    description: "Wykonanie projektu graficznego strony głównej: bez płatności",
-    label: "Bez Opłat",
-    icon: CreditCard,
-  },
-  {
-    title: "Zaliczka",
-    value: "50%",
-    description: "Po akceptacji projektu strony głównej i decyzji o rozpoczęciu współpracy: zaliczka 50% na podstawie proformy",
-    label: "Faktura Proforma",
-    icon: Receipt,
-  },
-  {
-    title: "Finalizacja",
-    value: "50%",
-    description: "Po ukończeniu wszystkich podstron i pełnym wdrożeniu strony na serwer: płatność 50% na podstawie proformy",
-    label: "Faktura Proforma",
-    icon: Banknote,
-  },
+const benefits = [
+  { icon: Award, text: "Profesjonalny wizerunek marki od pierwszego wejścia na stronę" },
+  { icon: MessageSquare, text: "Większą liczbę zapytań dzięki lepiej zaprojektowanej komunikacji" },
+  { icon: Smartphone, text: "Szybką i responsywną stronę dopasowaną do telefonów i komputerów" },
+  { icon: HelpCircle, text: "Mniej powtarzalnych pytań dzięki chatbotowi lub voicebotowi AI" },
+  { icon: Target, text: "Rozwiązanie dopasowane do Twojej branży, celu i budżetu" },
+]
+
+const processSteps = [
+  { number: "01", title: "Brief", description: "Wysyłasz brief lub krótki opis swojej firmy.", icon: FileText },
+  { number: "02", title: "Bezpłatny projekt", description: "Analizuję potrzeby i przygotowuję bezpłatny projekt strony głównej.", icon: Pencil },
+  { number: "03", title: "Konsultacja", description: "Omawiamy uwagi i dopracowujemy kierunek.", icon: MessageCircle },
+  { number: "04", title: "Realizacja", description: "Realizuję stronę lub wdrożenie AI.", icon: Code },
+  { number: "05", title: "Publikacja", description: "Publikujemy gotowe rozwiązanie i przekazuję je do dalszego użycia.", icon: Rocket },
+]
+
+const targetAudience = [
+  { icon: Building, text: "małymi i średnimi firmami" },
+  { icon: Users, text: "lokalnymi usługami" },
+  { icon: User, text: "markami osobistymi" },
+  { icon: Lightbulb, text: "startupami" },
+  { icon: Briefcase, text: "firmami, które chcą zautomatyzować kontakt z klientem" },
 ]
 
 export function HowItWorks() {
@@ -59,25 +40,66 @@ export function HowItWorks() {
       {/* Background */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,246,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,246,0.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
       
-      <div className="relative z-10 mx-auto max-w-6xl">
-        {/* Header */}
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-            Jak to działa
-          </h2>
-          <p className="mx-auto max-w-2xl text-muted-foreground text-lg">
-            Prosty, przejrzysty, 100% asynchroniczny proces
-          </p>
-        </div>
+      <div className="relative z-10 mx-auto max-w-6xl space-y-32">
         
-        {/* Process Steps */}
-        <div className="mb-24">
-          <h3 className="mb-10 text-center text-xl font-semibold text-foreground md:text-2xl">
-            Przebieg realizacji
-          </h3>
-          
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {steps.map((step, index) => (
+        {/* === SEKCJA ZAUFANIA === */}
+        <div>
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+              Strona internetowa to dopiero <span className="text-primary">początek</span>
+            </h2>
+            <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
+              Dobra strona nie ma tylko wyglądać nowocześnie. Ma wzbudzać zaufanie, jasno komunikować ofertę i prowadzić klienta do kontaktu lub zakupu.
+            </p>
+          </div>
+
+          <div className="mb-8 text-center">
+            <p className="text-lg text-foreground font-medium">Dlatego tworzę rozwiązania, które łączą:</p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {trustPoints.map((point, i) => (
+              <div key={i} className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/80 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
+                  <point.icon className="h-6 w-6 text-primary" />
+                </div>
+                <span className="text-sm text-muted-foreground">{point.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* === SEKCJA KORZYŚCI === */}
+        <div>
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+              Co zyskujesz dzięki <span className="text-primary">współpracy</span>
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {benefits.map((benefit, i) => (
+              <div key={i} className="group flex items-start gap-4 rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/80">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
+                  <benefit.icon className="h-5 w-5 text-primary" />
+                </div>
+                <span className="text-muted-foreground">{benefit.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* === SEKCJA PROCESU === */}
+        <div>
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+              Prosty proces, bez chaosu i bez{" "}
+              <span className="text-primary">przepalania budżetu</span>
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+            {processSteps.map((step, index) => (
               <div
                 key={index}
                 className="group relative rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/80"
@@ -89,48 +111,43 @@ export function HowItWorks() {
                 <h4 className="mb-2 text-lg font-semibold text-foreground">{step.title}</h4>
                 <p className="text-sm text-muted-foreground">{step.description}</p>
                 
-                {/* Connector line */}
-                {index < steps.length - 1 && (
+                {index < processSteps.length - 1 && (
                   <div className="absolute -right-3 top-1/2 hidden h-0.5 w-6 bg-gradient-to-r from-primary/50 to-transparent lg:block" />
                 )}
               </div>
             ))}
           </div>
+
+          <p className="mt-8 text-center text-muted-foreground italic">
+            Nie kupujesz w ciemno. Najpierw widzisz koncepcję, potem podejmujesz decyzję.
+          </p>
         </div>
-        
-        {/* Payments */}
+
+        {/* === SEKCJA DLA KOGO === */}
         <div>
-          <div className="mb-10 text-center">
-            <h3 className="mb-2 text-xl font-semibold text-foreground md:text-2xl">
-              Płatności
-            </h3>
-            <p className="text-muted-foreground">
-              Przejrzysty model rozliczeń - 50% / 50% lub 100% z góry
-            </p>
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
+              Dla kogo jest ta <span className="text-primary">oferta</span>
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">Współpracuję z:</p>
           </div>
-          
-          <div className="grid gap-6 md:grid-cols-3">
-            {payments.map((payment, index) => (
-              <div
-                key={index}
-                className="group relative overflow-hidden rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/80"
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <payment.icon className="h-8 w-8 text-primary" />
-                  <span className={`rounded-full px-3 py-1 text-xs font-medium ${
-                    payment.value === "FREE" 
-                      ? "bg-green-500/20 text-green-400" 
-                      : "bg-primary/20 text-primary"
-                  }`}>
-                    {payment.label}
-                  </span>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {targetAudience.map((item, i) => (
+              <div key={i} className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:bg-card/80 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 transition-colors group-hover:bg-primary/20">
+                  <item.icon className="h-6 w-6 text-primary" />
                 </div>
-                
-                <h4 className="mb-1 text-lg font-semibold text-foreground">{payment.title}</h4>
-                <div className="mb-3 text-3xl font-bold text-primary">{payment.value}</div>
-                <p className="text-sm text-muted-foreground">{payment.description}</p>
+                <span className="text-sm text-muted-foreground">{item.text}</span>
               </div>
             ))}
+          </div>
+
+          <div className="mt-8 rounded-2xl border border-primary/20 bg-primary/5 p-6 text-center">
+            <p className="text-muted-foreground">
+              Jeśli potrzebujesz strony, która wygląda profesjonalnie i realnie wspiera sprzedaż, albo chcesz wdrożyć AI do obsługi klientów —{" "}
+              <span className="font-semibold text-foreground">ta oferta jest dla Ciebie.</span>
+            </p>
           </div>
         </div>
       </div>

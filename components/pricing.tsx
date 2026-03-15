@@ -6,44 +6,51 @@ import { cn } from "@/lib/utils"
 
 const webPackages = [
   {
-    name: "One-Pager / Landing",
+    name: "Pakiet Start",
+    subtitle: "Landing page / one page",
     price: "999",
-    description: "Idealne na start lub kampanię marketingową",
+    description: "Idealny, jeśli chcesz szybko ruszyć z profesjonalną obecnością online i zacząć zbierać zapytania.",
     features: [
-      "1 długa, responsywna podstrona",
-      "Formularz lead magnet",
-      "Panel CMS do edycji treści",
-      "Certyfikat SSL",
-      "Realizacja w 7 dni",
+      "Nowoczesny projekt strony",
+      "Jedna długa strona sprzedażowa",
+      "Pełna responsywność",
+      "Formularz kontaktowy",
+      "CMS do samodzielnej edycji",
+      "Wdrożenie techniczne",
     ],
+    cta: "Zamów landing page",
     popular: false,
   },
   {
-    name: "Elite Performance",
+    name: "Pakiet Business",
+    subtitle: "Strona firmowa",
     price: "2 899",
-    description: "Kompletna wizytówka firmy z pełnym SEO",
+    description: "Dla firm, które potrzebują mocniejszego wizerunku, kilku podstron i solidnej bazy pod dalszy rozwój.",
     features: [
       "Do 5 podstron",
-      "Zaawansowana analityka (GA4, GTM)",
-      "Pełne SEO techniczne",
-      "Optymalizacja Core Web Vitals",
-      "Integracja z social media",
-      "Realizacja w 14 dni",
+      "Indywidualny projekt",
+      "Techniczne SEO",
+      "Optymalizacja szybkości",
+      "Integracje kontaktowe i analityczne",
+      "CMS i łatwa edycja treści",
     ],
+    cta: "Poproś o wycenę strony firmowej",
     popular: true,
   },
   {
-    name: "Custom App / Sklep",
+    name: "Pakiet Custom",
+    subtitle: "Aplikacja / sklep / rozwiązanie szyte na miarę",
     price: "Wycena",
     priceLabel: "indywidualna",
-    description: "Rozwiązania szyte na miarę Twojego biznesu",
+    description: "Dla biznesów, które potrzebują czegoś więcej niż standardowa strona: sklepu, panelu klienta, niestandardowych funkcji lub integracji.",
     features: [
-      "Systemy E-commerce (Next.js)",
-      "Animacje GSAP/Three.js",
+      "Sklep internetowy",
+      "Aplikacja webowa",
       "Integracje API",
-      "Panel administracyjny",
-      "Dedykowany opiekun projektu",
+      "Niestandardowe moduły",
+      "Rozwiązania dopasowane do procesu w firmie",
     ],
+    cta: "Umów konsultację",
     popular: false,
   },
 ]
@@ -54,42 +61,51 @@ const aiPackages = [
     price: "2 000",
     monthly: "200",
     icon: Bot,
-    description: "Automatyczna obsługa klienta na stronie",
+    description: "Chatbot AI, który odpowiada klientom nawet wtedy, gdy Ty pracujesz nad czymś innym",
+    salesCopy: "To dobre rozwiązanie, jeśli codziennie odpowiadasz na te same pytania albo chcesz szybciej zamieniać ruch na stronie w konkretne zapytania.",
     features: [
-      "Trening na danych Twojej firmy",
-      "Automatyczna kwalifikacja leadów",
-      "Integracja z Twoją stroną WWW",
-      "Panel do zarządzania konwersacjami",
-      "Raporty i statystyki",
+      "Odpowiadanie na pytania klientów 24/7",
+      "Przedstawianie oferty",
+      "Zbieranie leadów",
+      "Kwalifikacja zapytań",
+      "Odciążenie z powtarzalnej komunikacji",
     ],
+    cta: "Wdrożenie chatbota AI",
   },
   {
     name: "Voicebot AI",
     price: "4 499",
     monthly: "450",
     icon: Mic,
-    description: "Głosowy asystent dla Twojej firmy",
+    description: "Voicebot AI, który odbiera połączenia i prowadzi rozmowę za Ciebie",
+    salesCopy: "To rozwiązanie dla firm, które chcą obsługiwać więcej połączeń bez zwiększania obciążenia zespołu.",
     features: [
-      "Naturalna synteza mowy PL",
-      "Rezerwacje spotkań przez telefon",
-      "Obsługa setek połączeń jednocześnie",
-      "Integracja z kalendarzem",
-      "Przekierowanie do konsultanta",
+      "Odbieranie telefonów",
+      "Przekazywanie podstawowych informacji",
+      "Umawianie terminów",
+      "Kwalifikowanie rozmów",
+      "Przekierowywanie klienta do odpowiedniej osoby",
     ],
+    cta: "Zapytaj o voicebota AI",
   },
 ]
 
 export function Pricing() {
+  const scrollToContact = () => {
+    document.getElementById("kontakt-formularz")?.scrollIntoView({ behavior: "smooth" })
+  }
+
   return (
     <section id="cennik" className="relative py-24 px-4">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
-            Przejrzysty <span className="text-primary">cennik</span>
+            Strony internetowe dopasowane do{" "}
+            <span className="text-primary">Twojego biznesu</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-muted-foreground">
-            Wybierz pakiet dopasowany do potrzeb Twojego biznesu. Wszystkie ceny są cenami netto.
+          <p className="mx-auto max-w-2xl text-muted-foreground text-lg">
+            Strony WWW, które nie tylko dobrze wyglądają, ale też pracują na wynik
           </p>
         </div>
 
@@ -97,7 +113,7 @@ export function Pricing() {
         <div className="mb-20">
           <div className="mb-8 flex items-center gap-3">
             <Globe className="h-6 w-6 text-primary" />
-            <h3 className="text-2xl font-semibold text-foreground">Strony WWW</h3>
+            <h3 className="text-2xl font-semibold text-foreground">Strony internetowe</h3>
           </div>
           
           <div className="grid gap-6 md:grid-cols-3">
@@ -122,7 +138,8 @@ export function Pricing() {
                 
                 <div className="mb-4">
                   <h4 className="text-xl font-semibold text-foreground">{pkg.name}</h4>
-                  <p className="mt-1 text-sm text-muted-foreground">{pkg.description}</p>
+                  <p className="mt-0.5 text-xs text-primary font-medium">{pkg.subtitle}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{pkg.description}</p>
                 </div>
                 
                 <div className="mb-6">
@@ -150,8 +167,9 @@ export function Pricing() {
                       ? "bg-primary text-primary-foreground hover:bg-primary/90"
                       : "bg-secondary text-foreground hover:bg-secondary/80"
                   )}
+                  onClick={scrollToContact}
                 >
-                  Wybierz pakiet
+                  {pkg.cta}
                 </Button>
               </div>
             ))}
@@ -162,7 +180,7 @@ export function Pricing() {
         <div>
           <div className="mb-8 flex items-center gap-3">
             <Bot className="h-6 w-6 text-accent" />
-            <h3 className="text-2xl font-semibold text-foreground">Automatyzacja AI</h3>
+            <h3 className="text-2xl font-semibold text-foreground">Chatboty i voiceboty AI dla firm</h3>
           </div>
           
           <div className="grid gap-6 md:grid-cols-2 lg:max-w-4xl">
@@ -183,7 +201,8 @@ export function Pricing() {
                     <h4 className="text-xl font-semibold text-foreground">{pkg.name}</h4>
                   </div>
                   
-                  <p className="mb-4 text-sm text-muted-foreground">{pkg.description}</p>
+                  <p className="mb-2 text-sm font-medium text-foreground">{pkg.description}</p>
+                  <p className="mb-4 text-sm text-muted-foreground italic">{pkg.salesCopy}</p>
                   
                   <div className="mb-6">
                     <span className="text-4xl font-bold text-foreground">{pkg.price}</span>
@@ -202,8 +221,11 @@ export function Pricing() {
                     ))}
                   </ul>
                   
-                  <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90">
-                    Zamów wdrożenie
+                  <Button
+                    className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+                    onClick={scrollToContact}
+                  >
+                    {pkg.cta}
                   </Button>
                 </div>
               </div>

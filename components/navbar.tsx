@@ -8,8 +8,8 @@ import { cn } from "@/lib/utils"
 import { ContactForm } from "@/components/contact-form"
 
 const navLinks = [
-  { label: "Jak to działa", href: "#jak-to-dziala" },
-  { label: "Cennik", href: "#cennik" },
+  { label: "Jak pomagam", href: "#jak-to-dziala" },
+  { label: "Oferta", href: "#cennik" },
   { label: "Portfolio", href: "#portfolio" },
   { label: "FAQ", href: "#faq" },
 ]
@@ -58,7 +58,7 @@ export function Navbar() {
               className="bg-primary text-primary-foreground hover:bg-primary/90"
               onClick={() => setIsContactOpen(true)}
             >
-              Darmowa wycena
+              Zamów bezpłatny projekt
             </Button>
           </div>
 
@@ -98,7 +98,7 @@ export function Navbar() {
               className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90"
               onClick={() => { setIsOpen(false); setIsContactOpen(true) }}
             >
-              Darmowa wycena
+               Zamów bezpłatny projekt
             </Button>
           </div>
         </div>

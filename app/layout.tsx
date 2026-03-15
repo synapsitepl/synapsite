@@ -8,8 +8,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Synapsite | Strony WWW, Chatboty i Voiceboty AI',
-  description: 'Synapsite - budujemy nowoczesne strony internetowe oraz wdrażamy chatboty i voiceboty AI dla firm. Automatyzacja obsługi klienta 24/7.',
+  title: 'Tworzenie stron internetowych, chatboty i voiceboty AI | Synapsite',
+  description: 'Projektuję nowoczesne strony internetowe oraz wdrażam chatboty i voiceboty AI dla firm. Zwiększ liczbę zapytań, zautomatyzuj obsługę klientów i rozwijaj biznes online.',
 }
 
 export default function RootLayout({
