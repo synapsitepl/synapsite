@@ -5,7 +5,8 @@ import { X, Send, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useToast } from "@/hooks/use-toast"
+
+const WEB3FORMS_KEY = "2e896285-38f9-493c-a40d-f7ff0509a7da"
 
 interface ContactFormProps {
   isOpen: boolean
@@ -15,48 +16,50 @@ interface ContactFormProps {
 export function ContactForm({ isOpen, onClose }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [errors, setErrors] = useState<Record<string, string[]>>({})
-  const { toast } = useToast()
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
-    setErrors({})
+    setError("")
 
     const formData = new FormData(e.currentTarget)
-    const data = {
-      name: formData.get("name") as string,
-      company: formData.get("company") as string,
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
-      serviceType: formData.get("service") as string,
-      budget: formData.get("budget") as string,
-      timeline: formData.get("timeline") as string,
-      message: formData.get("message") as string,
-      website: formData.get("website") as string, // honeypot
-    }
+    formData.append("access_key", WEB3FORMS_KEY)
+    formData.append("subject", `Nowe zapytanie ze strony synapsite.pl – ${formData.get("name")}`)
+    formData.append("from_name", "Synapsite.pl")
 
     try {
-      const res = await fetch("/api/contact", {
+      // Send to Web3Forms
+      const web3Response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
       })
+      const web3Data = await web3Response.json()
 
-      const result = await res.json()
-
-      if (!res.ok) {
-        if (result.errors) {
-          setErrors(result.errors)
-        }
-        toast({
-          title: "Błąd",
-          description: result.error || "Wystąpił błąd. Spróbuj ponownie.",
-          variant: "destructive",
-        })
+      if (!web3Data.success) {
+        setError("Nie udało się wysłać wiadomości. Spróbuj ponownie.")
         setIsSubmitting(false)
         return
       }
+
+      // Also save to our DB (non-blocking)
+      const jsonData = {
+        name: formData.get("name") as string,
+        company: formData.get("company") as string || "",
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string || "",
+        serviceType: formData.get("service") as string || "ogólne",
+        budget: formData.get("budget") as string || "",
+        timeline: formData.get("timeline") as string || "",
+        message: formData.get("message") as string,
+        website: "",
+      }
+
+      fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jsonData),
+      }).catch(() => {})
 
       setIsSubmitting(false)
       setIsSubmitted(true)
@@ -66,11 +69,7 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
         onClose()
       }, 4000)
     } catch {
-      toast({
-        title: "Błąd",
-        description: "Nie udało się wysłać wiadomości. Sprawdź połączenie.",
-        variant: "destructive",
-      })
+      setError("Nie udało się wysłać wiadomości. Sprawdź połączenie.")
       setIsSubmitting(false)
     }
   }
@@ -121,31 +120,28 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Honeypot - hidden from users, visible to bots */}
-                <div className="absolute -left-[9999px]" aria-hidden="true">
-                  <input type="text" name="website" tabIndex={-1} autoComplete="off" />
-                </div>
+                {/* Honeypot for Web3Forms */}
+                <input type="checkbox" name="botcheck" className="hidden" />
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="name" className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="modal-name" className="mb-2 block text-sm font-medium text-foreground">
                       Imię / nazwa firmy *
                     </label>
                     <Input
-                      id="name"
+                      id="modal-name"
                       name="name"
                       required
                       placeholder="Jan Kowalski lub Firma ABC"
                       className="bg-secondary/50 border-border"
                     />
-                    {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name[0]}</p>}
                   </div>
                   <div>
-                    <label htmlFor="company" className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="modal-company" className="mb-2 block text-sm font-medium text-foreground">
                       Firma
                     </label>
                     <Input
-                      id="company"
+                      id="modal-company"
                       name="company"
                       placeholder="Nazwa firmy"
                       className="bg-secondary/50 border-border"
@@ -155,25 +151,24 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="modal-email" className="mb-2 block text-sm font-medium text-foreground">
                       Adres e-mail *
                     </label>
                     <Input
-                      id="email"
+                      id="modal-email"
                       name="email"
                       type="email"
                       required
                       placeholder="jan@firma.pl"
                       className="bg-secondary/50 border-border"
                     />
-                    {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email[0]}</p>}
                   </div>
                   <div>
-                    <label htmlFor="phone" className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="modal-phone" className="mb-2 block text-sm font-medium text-foreground">
                       Numer telefonu
                     </label>
                     <Input
-                      id="phone"
+                      id="modal-phone"
                       name="phone"
                       type="tel"
                       placeholder="+48 123 456 789"
@@ -183,70 +178,69 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                 </div>
 
                 <div>
-                  <label htmlFor="service" className="mb-2 block text-sm font-medium text-foreground">
+                  <label htmlFor="modal-service" className="mb-2 block text-sm font-medium text-foreground">
                     Czego potrzebujesz? *
                   </label>
                   <select
-                    id="service"
+                    id="modal-service"
                     name="service"
                     required
                     className="w-full rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   >
                     <option value="">Wybierz usługę...</option>
-                    <option value="landing-page">Landing page / one page</option>
-                    <option value="strona-firmowa">Strona firmowa</option>
-                    <option value="sklep">Sklep internetowy</option>
-                    <option value="chatbot">Chatbot AI</option>
-                    <option value="voicebot">Voicebot AI</option>
-                    <option value="pelne-rozwiazanie">Pełne rozwiązanie (strona + AI)</option>
-                    <option value="inne">Inne</option>
+                    <option value="Landing page">Landing page / one page</option>
+                    <option value="Strona firmowa">Strona firmowa</option>
+                    <option value="Sklep internetowy">Sklep internetowy</option>
+                    <option value="Chatbot AI">Chatbot AI</option>
+                    <option value="Voicebot AI">Voicebot AI</option>
+                    <option value="Strona + AI">Pełne rozwiązanie (strona + AI)</option>
+                    <option value="Inne">Inne</option>
                   </select>
-                  {errors.serviceType && <p className="mt-1 text-xs text-destructive">{errors.serviceType[0]}</p>}
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="budget" className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="modal-budget" className="mb-2 block text-sm font-medium text-foreground">
                       Budżet
                     </label>
                     <select
-                      id="budget"
+                      id="modal-budget"
                       name="budget"
                       className="w-full rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                       <option value="">Wybierz zakres...</option>
-                      <option value="do-2000">Do 2 000 zł</option>
-                      <option value="2000-5000">2 000 - 5 000 zł</option>
-                      <option value="5000-10000">5 000 - 10 000 zł</option>
-                      <option value="10000-20000">10 000 - 20 000 zł</option>
-                      <option value="powyzej-20000">Powyżej 20 000 zł</option>
+                      <option value="Do 2 000 zł">Do 2 000 zł</option>
+                      <option value="2 000 - 5 000 zł">2 000 - 5 000 zł</option>
+                      <option value="5 000 - 10 000 zł">5 000 - 10 000 zł</option>
+                      <option value="10 000 - 20 000 zł">10 000 - 20 000 zł</option>
+                      <option value="Powyżej 20 000 zł">Powyżej 20 000 zł</option>
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="timeline" className="mb-2 block text-sm font-medium text-foreground">
+                    <label htmlFor="modal-timeline" className="mb-2 block text-sm font-medium text-foreground">
                       Termin realizacji
                     </label>
                     <select
-                      id="timeline"
+                      id="modal-timeline"
                       name="timeline"
                       className="w-full rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                       <option value="">Wybierz termin...</option>
-                      <option value="asap">Jak najszybciej</option>
-                      <option value="1-miesiac">W ciągu miesiąca</option>
-                      <option value="1-3-miesiace">1-3 miesiące</option>
-                      <option value="3-6-miesiecy">3-6 miesięcy</option>
-                      <option value="brak-presji">Bez pośpiechu</option>
+                      <option value="Jak najszybciej">Jak najszybciej</option>
+                      <option value="W ciągu miesiąca">W ciągu miesiąca</option>
+                      <option value="1-3 miesiące">1-3 miesiące</option>
+                      <option value="3-6 miesięcy">3-6 miesięcy</option>
+                      <option value="Bez pośpiechu">Bez pośpiechu</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="mb-2 block text-sm font-medium text-foreground">
+                  <label htmlFor="modal-message" className="mb-2 block text-sm font-medium text-foreground">
                     Opisz krótko swój projekt *
                   </label>
                   <Textarea
-                    id="message"
+                    id="modal-message"
                     name="message"
                     required
                     rows={4}
@@ -254,8 +248,11 @@ export function ContactForm({ isOpen, onClose }: ContactFormProps) {
                     className="bg-secondary/50 border-border resize-none"
                   />
                   <p className="mt-1 text-xs text-muted-foreground">Im więcej konkretów, tym lepsza wycena</p>
-                  {errors.message && <p className="mt-1 text-xs text-destructive">{errors.message[0]}</p>}
                 </div>
+
+                {error && (
+                  <p className="text-sm text-destructive">{error}</p>
+                )}
 
                 <Button
                   type="submit"

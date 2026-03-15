@@ -6,39 +6,58 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
+const WEB3FORMS_KEY = "2e896285-38f9-493c-a40d-f7ff0509a7da"
+
 export function InlineContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setError("")
 
     const formData = new FormData(e.currentTarget)
-    const data = {
-      name: formData.get("name") as string,
-      company: "",
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
-      serviceType: formData.get("service") as string || "ogólne",
-      budget: "",
-      timeline: "",
-      message: formData.get("message") as string,
-      website: formData.get("website") as string,
-    }
+    formData.append("access_key", WEB3FORMS_KEY)
+    formData.append("subject", `Nowe zapytanie ze strony synapsite.pl – ${formData.get("name")}`)
+    formData.append("from_name", "Synapsite.pl")
 
     try {
-      const res = await fetch("/api/contact", {
+      const web3Response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      })
+      const web3Data = await web3Response.json()
+
+      if (!web3Data.success) {
+        setError("Nie udało się wysłać wiadomości. Spróbuj ponownie.")
+        setIsSubmitting(false)
+        return
+      }
+
+      // Also save to DB (non-blocking)
+      const jsonData = {
+        name: formData.get("name") as string,
+        company: "",
+        email: formData.get("email") as string,
+        phone: formData.get("phone") as string || "",
+        serviceType: formData.get("service") as string || "ogólne",
+        budget: "",
+        timeline: "",
+        message: formData.get("message") as string,
+        website: "",
+      }
+
+      fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
+        body: JSON.stringify(jsonData),
+      }).catch(() => {})
 
-      if (res.ok) {
-        setIsSubmitted(true)
-      }
+      setIsSubmitted(true)
     } catch {
-      // silent fail
+      setError("Nie udało się wysłać wiadomości. Sprawdź połączenie.")
     }
     setIsSubmitting(false)
   }
@@ -71,10 +90,8 @@ export function InlineContactForm() {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-border bg-card/50 backdrop-blur-sm p-6 md:p-8">
-            {/* Honeypot */}
-            <div className="absolute -left-[9999px]" aria-hidden="true">
-              <input type="text" name="website" tabIndex={-1} autoComplete="off" />
-            </div>
+            {/* Web3Forms honeypot */}
+            <input type="checkbox" name="botcheck" className="hidden" />
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -127,13 +144,13 @@ export function InlineContactForm() {
                   className="w-full rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="">Wybierz...</option>
-                  <option value="landing-page">Landing page</option>
-                  <option value="strona-firmowa">Strona firmowa</option>
-                  <option value="sklep">Sklep internetowy</option>
-                  <option value="chatbot">Chatbot AI</option>
-                  <option value="voicebot">Voicebot AI</option>
-                  <option value="pelne-rozwiazanie">Strona + AI</option>
-                  <option value="inne">Inne</option>
+                  <option value="Landing page">Landing page</option>
+                  <option value="Strona firmowa">Strona firmowa</option>
+                  <option value="Sklep internetowy">Sklep internetowy</option>
+                  <option value="Chatbot AI">Chatbot AI</option>
+                  <option value="Voicebot AI">Voicebot AI</option>
+                  <option value="Strona + AI">Strona + AI</option>
+                  <option value="Inne">Inne</option>
                 </select>
               </div>
             </div>
@@ -152,6 +169,10 @@ export function InlineContactForm() {
               />
               <p className="mt-1 text-xs text-muted-foreground">Możesz odpisać w 2–3 zdaniach. Jeśli nie masz materiałów, pomogę Ci je przygotować.</p>
             </div>
+
+            {error && (
+              <p className="text-sm text-destructive">{error}</p>
+            )}
 
             <Button
               type="submit"
