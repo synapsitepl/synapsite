@@ -34,12 +34,25 @@ const statusColors: Record<string, string> = {
 }
 
 const serviceLabels: Record<string, string> = {
+  // Old coded values (legacy)
   www: "Strona WWW",
   sklep: "Sklep internetowy",
   chatbot: "Chatbot AI",
   voicebot: "Voicebot AI",
   automatyzacja: "Automatyzacja",
   inne: "Inne",
+  // New readable values
+  "Landing page": "Landing page",
+  "Strona firmowa": "Strona firmowa",
+  "Sklep internetowy": "Sklep internetowy",
+  "Chatbot AI": "Chatbot AI",
+  "Voicebot AI": "Voicebot AI",
+  "Strona + AI": "Strona + AI",
+  "Inne": "Inne",
+  "landing-page": "Landing page",
+  "strona-firmowa": "Strona firmowa",
+  "pelne-rozwiazanie": "Strona + AI",
+  "ogólne": "Ogólne zapytanie",
 }
 
 export default function LeadsPage() {
