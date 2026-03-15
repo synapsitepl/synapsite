@@ -1,4 +1,4 @@
-import { openai } from "@ai-sdk/openai"
+import { createOpenAI } from "@ai-sdk/openai"
 import { streamText } from "ai"
 import { getSystemPrompt } from "@/lib/chatbot/system-prompt"
 import { prisma } from "@/lib/prisma"
@@ -8,6 +8,21 @@ export const maxDuration = 30
 
 export async function POST(req: Request) {
   try {
+    // Validate API key
+    const apiKey = (process.env.OPENAI_API_KEY || "").trim()
+    if (!apiKey) {
+      console.error("OPENAI_API_KEY is not set or empty")
+      return new Response(
+        JSON.stringify({ error: "Chat configuration error: API key missing" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      )
+    }
+
+    const openai = createOpenAI({
+      apiKey,
+      compatibility: "strict",
+    })
+
     const { messages, sessionId } = await req.json()
 
     // Save user message to DB
@@ -63,9 +78,10 @@ export async function POST(req: Request) {
     return response
   } catch (error) {
     console.error("Chat API error:", error)
-    return new Response(JSON.stringify({ error: "Chat error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    })
+    const errorMessage = error instanceof Error ? error.message : "Unknown error"
+    return new Response(
+      JSON.stringify({ error: "Chat error", details: errorMessage }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
+    )
   }
 }
