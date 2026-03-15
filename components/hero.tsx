@@ -73,21 +73,6 @@ export function Hero() {
             </div>
           </div>
         </div>
-        
-        {/* Stats */}
-        <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4 lg:mt-20">
-          {[
-            { value: "150+", label: "Zrealizowanych projektów" },
-            { value: "98%", label: "Zadowolonych klientów" },
-            { value: "24/7", label: "Wsparcie AI" },
-            { value: "<7", label: "Dni realizacji" },
-          ].map((stat, i) => (
-            <div key={i} className="text-center">
-              <div className="text-3xl font-bold text-foreground md:text-4xl">{stat.value}</div>
-              <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
-            </div>
-          ))}
-        </div>
       </div>
       
       {/* Scroll indicator */}
