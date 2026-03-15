@@ -22,6 +22,7 @@ export function Footer() {
                 <span className="text-primary">SITE</span>
               </span>
             </div>
+            <p className="mb-1 text-sm font-medium text-foreground">Kacper Drozd</p>
             <p className="mb-6 max-w-md text-muted-foreground">
               Projektuję nowoczesne strony internetowe oraz wdrażam chatboty i voiceboty AI, które wspierają sprzedaż i automatyzują obsługę klienta.
             </p>
@@ -105,7 +106,7 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © 2026 Kacper Drozd / Synapsite. Wszystkie prawa zastrzeżone.
+            © 2026 Synapsite. Wszystkie prawa zastrzeżone.
           </p>
           <div className="flex gap-6">
             <Link
