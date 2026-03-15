@@ -20,7 +20,6 @@ export async function POST(req: Request) {
 
     const openai = createOpenAI({
       apiKey,
-      compatibility: "strict",
     })
 
     const { messages, sessionId } = await req.json()
@@ -68,7 +67,7 @@ export async function POST(req: Request) {
       },
     })
 
-    const response = result.toDataStreamResponse()
+    const response = result.toUIMessageStreamResponse()
     
     // Add session ID header
     if (currentSessionId) {
