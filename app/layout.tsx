@@ -11,8 +11,10 @@ export const metadata: Metadata = {
   title: 'Synapsite | Strony WWW, Chatboty i Voiceboty AI',
   description: 'Synapsite - budujemy nowoczesne strony internetowe oraz wdrażamy chatboty i voiceboty AI dla firm. Automatyzacja obsługi klienta 24/7.',
   icons: {
-    icon: '/favicon.ico',
-    apple: '/apple-icon.png',
+    icon: [
+      { url: '/logo-icon.png', type: 'image/png' },
+    ],
+    apple: '/logo-icon.png',
   },
 }
 
