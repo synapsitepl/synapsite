@@ -1,5 +1,5 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google"
-import { streamText } from "ai"
+import { createOpenAI } from "@ai-sdk/openai"
+import { convertToModelMessages, streamText, UIMessage } from "ai"
 import { getSystemPrompt } from "@/lib/chatbot/system-prompt"
 import { prisma } from "@/lib/prisma"
 
@@ -11,7 +11,7 @@ const chatRateLimit = new Map<string, { count: number; resetAt: number }>()
 const CHAT_RATE_MAX = 10
 const CHAT_RATE_WINDOW = 10 * 60 * 1000
 
-// Global daily counter — stop at 1200 to stay safely under 1500 free RPD
+// Global daily counter
 let dailyCount = 0
 let dailyResetAt = Date.now() + 24 * 60 * 60 * 1000
 
@@ -44,9 +44,9 @@ function checkRateLimit(ip: string): string | null {
 export async function POST(req: Request) {
   try {
     // Validate API key
-    const apiKey = (process.env.GOOGLE_GENERATIVE_AI_API_KEY || "").trim()
+    const apiKey = (process.env.OPENROUTER_API_KEY || "").trim()
     if (!apiKey) {
-      console.error("GOOGLE_GENERATIVE_AI_API_KEY is not set")
+      console.error("OPENROUTER_API_KEY is not set")
       return new Response(
         JSON.stringify({ error: "Chatbot nie jest skonfigurowany." }),
         { status: 500, headers: { "Content-Type": "application/json" } }
@@ -67,25 +67,35 @@ export async function POST(req: Request) {
       )
     }
 
-    const google = createGoogleGenerativeAI({ apiKey })
+    // Create OpenRouter client (OpenAI-compatible API)
+    const openrouter = createOpenAI({
+      apiKey,
+      baseURL: "https://openrouter.ai/api/v1",
+    })
 
-    const { messages, sessionId } = await req.json()
+    const { messages }: { messages: UIMessage[] } = await req.json()
+
+    // Extract text from the last user message for DB saving
+    const lastMessage = messages[messages.length - 1]
+    const lastUserText = lastMessage?.role === "user"
+      ? lastMessage.parts
+          ?.filter((p: { type: string }) => p.type === "text")
+          .map((p: { type: string; text?: string }) => p.text)
+          .join("") || lastMessage.content || ""
+      : ""
 
     // Save user message to DB
-    let currentSessionId = sessionId
+    let currentSessionId: string | null = null
     try {
-      if (!currentSessionId) {
-        const session = await prisma.chatSession.create({ data: {} })
-        currentSessionId = session.id
-      }
+      const session = await prisma.chatSession.create({ data: {} })
+      currentSessionId = session.id
 
-      const lastMessage = messages[messages.length - 1]
-      if (lastMessage?.role === "user" && lastMessage?.content) {
+      if (lastUserText) {
         await prisma.chatMessage.create({
           data: {
             sessionId: currentSessionId,
             role: "user",
-            content: lastMessage.content,
+            content: lastUserText,
           },
         })
       }
@@ -94,10 +104,10 @@ export async function POST(req: Request) {
     }
 
     const result = streamText({
-      model: google("gemini-2.0-flash"),
+      model: openrouter("deepseek/deepseek-v3.2"),
       system: getSystemPrompt(),
-      messages,
-      maxOutputTokens: 500, // Keep responses short to save quota
+      messages: await convertToModelMessages(messages),
+      maxTokens: 500,
       temperature: 0.7,
       onFinish: async ({ text }) => {
         try {
@@ -116,13 +126,7 @@ export async function POST(req: Request) {
       },
     })
 
-    const response = result.toUIMessageStreamResponse()
-
-    if (currentSessionId) {
-      response.headers.set("X-Session-Id", currentSessionId)
-    }
-
-    return response
+    return result.toUIMessageStreamResponse()
   } catch (error) {
     console.error("Chat API error:", error)
     const errorMessage = error instanceof Error ? error.message : "Unknown error"

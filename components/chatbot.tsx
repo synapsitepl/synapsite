@@ -2,34 +2,57 @@
 
 import { useState, useRef, useEffect } from "react"
 import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport } from "ai"
 import { MessageCircle, X, Send, Loader2, Bot, User } from "lucide-react"
 
 export function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
-  const [sessionId, setSessionId] = useState<string | null>(null)
+  const [input, setInput] = useState("")
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
-    api: "/api/chat",
-    body: { sessionId },
-    onResponse: (response) => {
-      const newSessionId = response.headers.get("X-Session-Id")
-      if (newSessionId && !sessionId) {
-        setSessionId(newSessionId)
-      }
-    },
+  const { messages, sendMessage, status, setMessages } = useChat({
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+    }),
     initialMessages: [
       {
         id: "welcome",
         role: "assistant",
         content: "Cześć! 👋 Jestem asystentem Synapsite. Chętnie odpowiem na pytania dotyczące naszych usług — stron WWW, chatbotów AI, voicebotów i automatyzacji. W czym mogę pomóc?",
+        parts: [
+          {
+            type: "text" as const,
+            text: "Cześć! 👋 Jestem asystentem Synapsite. Chętnie odpowiem na pytania dotyczące naszych usług — stron WWW, chatbotów AI, voicebotów i automatyzacji. W czym mogę pomóc?",
+          },
+        ],
       },
     ],
   })
 
+  const isLoading = status === "submitted" || status === "streaming"
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages])
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (input.trim() && !isLoading) {
+      sendMessage({ text: input })
+      setInput("")
+    }
+  }
+
+  // Extract text content from message parts or content
+  function getMessageText(msg: { content: string; parts?: Array<{ type: string; text?: string }> }): string {
+    if (msg.parts && msg.parts.length > 0) {
+      return msg.parts
+        .filter((p) => p.type === "text" && p.text)
+        .map((p) => p.text)
+        .join("")
+    }
+    return msg.content
+  }
 
   return (
     <>
@@ -100,11 +123,11 @@ export function ChatbotWidget() {
                     <div
                       className="prose prose-sm prose-invert max-w-none [&>p]:mb-2 [&>p:last-child]:mb-0 [&>ul]:mb-2 [&>ol]:mb-2 [&>li]:text-sm"
                       dangerouslySetInnerHTML={{
-                        __html: formatMarkdown(msg.content),
+                        __html: formatMarkdown(getMessageText(msg)),
                       }}
                     />
                   ) : (
-                    msg.content
+                    getMessageText(msg)
                   )}
                 </div>
               </div>
@@ -129,18 +152,18 @@ export function ChatbotWidget() {
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSubmit} className="border-t border-border p-3">
+          <form onSubmit={handleFormSubmit} className="border-t border-border p-3">
             <div className="flex items-center gap-2">
               <input
                 value={input}
-                onChange={handleInputChange}
+                onChange={(e) => setInput(e.target.value)}
                 placeholder="Napisz wiadomość..."
                 className="flex-1 rounded-xl border border-border bg-secondary/50 px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 disabled={isLoading}
               />
               <button
                 type="submit"
-                disabled={isLoading || !(input || "").trim()}
+                disabled={isLoading || !input.trim()}
                 className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
               >
                 {isLoading ? (
