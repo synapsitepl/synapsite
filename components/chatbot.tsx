@@ -8,19 +8,6 @@ import { Bot, Loader2, MessageCircle, Send, User, X } from "lucide-react"
 const welcomeText =
   "Cześć! Jestem asystentem Synapsite. Chętnie odpowiem na pytania dotyczące naszych usług - stron WWW, chatbotów AI, voicebotów i automatyzacji. W czym mogę pomóc?"
 
-const initialMessages: UIMessage[] = [
-  {
-    id: "welcome",
-    role: "assistant",
-    parts: [
-      {
-        type: "text",
-        text: welcomeText,
-      },
-    ],
-  },
-]
-
 export function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState("")
@@ -30,7 +17,6 @@ export function ChatbotWidget() {
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
-    messages: initialMessages,
   })
 
   const isLoading = status === "submitted" || status === "streaming"
@@ -96,6 +82,22 @@ export function ChatbotWidget() {
           </div>
 
           <div className="flex-1 space-y-4 overflow-y-auto p-4">
+            {messages.length === 0 && (
+              <div className="flex gap-2">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/10">
+                  <Bot className="h-3.5 w-3.5 text-accent" />
+                </div>
+                <div className="max-w-[80%] rounded-2xl rounded-bl-md bg-secondary px-3.5 py-2.5 text-sm leading-relaxed text-foreground">
+                  <div
+                    className="prose prose-sm prose-invert max-w-none [&>li]:text-sm [&>ol]:mb-2 [&>p:last-child]:mb-0 [&>p]:mb-2 [&>ul]:mb-2"
+                    dangerouslySetInnerHTML={{
+                      __html: formatMarkdown(welcomeText),
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
             {messages.map((msg) => (
               <div
                 key={msg.id}
