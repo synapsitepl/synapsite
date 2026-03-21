@@ -7,7 +7,6 @@ export function Footer() {
     <footer id="kontakt" className="border-t border-border bg-card/30 py-16 px-4">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 md:grid-cols-4">
-          {/* Brand */}
           <div className="md:col-span-2">
             <div className="mb-6 flex items-center gap-4">
               <Image
@@ -22,11 +21,13 @@ export function Footer() {
                 <span className="text-primary">SITE</span>
               </span>
             </div>
-            <p className="mb-1 text-sm font-medium text-foreground">Kacper Drozd</p>
             <p className="mb-6 max-w-md text-muted-foreground">
-              Projektuję nowoczesne strony internetowe oraz wdrażam chatboty i voiceboty AI, które wspierają sprzedaż i automatyzują obsługę klienta.
+              Projektuję nowoczesne strony internetowe oraz wdrażam chatboty i
+              voiceboty AI, które wspierają sprzedaż i automatyzują obsługę
+              klienta.
             </p>
             <div className="flex flex-col gap-3">
+              <p className="text-sm font-medium text-foreground">Kacper Drozd</p>
               <a
                 href="mailto:kontakt@synapsite.pl"
                 className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
@@ -41,7 +42,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="mb-4 font-semibold text-foreground">Usługi</h4>
             <ul className="space-y-2">
@@ -64,7 +64,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Links */}
           <div>
             <h4 className="mb-4 font-semibold text-foreground">Informacje</h4>
             <ul className="space-y-2">
@@ -108,20 +107,6 @@ export function Footer() {
           <p className="text-sm text-muted-foreground">
             © 2026 Synapsite. Wszystkie prawa zastrzeżone.
           </p>
-          <div className="flex gap-6">
-            <Link
-              href="/polityka-prywatnosci"
-              className="text-sm text-muted-foreground transition-colors hover:text-primary"
-            >
-              Polityka prywatności
-            </Link>
-            <Link
-              href="/regulamin"
-              className="text-sm text-muted-foreground transition-colors hover:text-primary"
-            >
-              Regulamin
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

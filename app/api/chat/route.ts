@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma"
 
 export const dynamic = "force-dynamic"
 export const maxDuration = 30
+const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+const DEFAULT_OPENROUTER_MODEL = "deepseek/deepseek-v3.2"
 
 // Rate limiting per IP — max 10 messages per 10 minutes
 const chatRateLimit = new Map<string, { count: number; resetAt: number }>()
@@ -45,6 +47,7 @@ export async function POST(req: Request) {
   try {
     // Validate API key
     const apiKey = (process.env.OPENROUTER_API_KEY || "").trim()
+    const model = (process.env.OPENROUTER_MODEL || DEFAULT_OPENROUTER_MODEL).trim()
     if (!apiKey) {
       console.error("OPENROUTER_API_KEY is not set")
       return new Response(
@@ -70,7 +73,11 @@ export async function POST(req: Request) {
     // Create OpenRouter client (OpenAI-compatible API)
     const openrouter = createOpenAI({
       apiKey,
-      baseURL: "https://openrouter.ai/api/v1",
+      baseURL: OPENROUTER_BASE_URL,
+      headers: {
+        "HTTP-Referer": process.env.NEXTAUTH_URL || "http://localhost:3000",
+        "X-Title": "Synapsite",
+      },
     })
 
     const { messages }: { messages: UIMessage[] } = await req.json()
@@ -104,7 +111,7 @@ export async function POST(req: Request) {
     }
 
     const result = streamText({
-      model: openrouter("deepseek/deepseek-v3.2"),
+      model: openrouter(model),
       system: getSystemPrompt(),
       messages: await convertToModelMessages(messages),
       maxTokens: 500,
