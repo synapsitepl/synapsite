@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { Menu, X } from "lucide-react"
+import { Facebook, Instagram, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ContactForm } from "@/components/contact-form"
@@ -14,6 +14,19 @@ const navLinks = [
   { label: "FAQ", href: "#faq" },
 ]
 
+const socialLinks = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/synapsite.pl/",
+    icon: Instagram,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61580738136424",
+    icon: Facebook,
+  },
+]
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isContactOpen, setIsContactOpen] = useState(false)
@@ -22,7 +35,6 @@ export function Navbar() {
     <header className="fixed top-0 z-50 w-full">
       <div className="mx-auto max-w-7xl px-4">
         <nav className="mt-4 flex items-center justify-between rounded-full border border-border bg-background/80 px-6 py-3 backdrop-blur-md">
-          {/* Logo */}
           <a href="#" className="flex shrink-0 items-center gap-3">
             <Image
               src="/logo-icon.png"
@@ -38,7 +50,6 @@ export function Navbar() {
             </span>
           </a>
 
-          {/* Desktop Navigation */}
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <a
@@ -51,8 +62,24 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-3 md:flex">
+            {socialLinks.map((social) => {
+              const Icon = social.icon
+
+              return (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={social.label}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-secondary/40 text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              )
+            })}
+
             <Button
               size="sm"
               className="bg-primary text-primary-foreground hover:bg-primary/90"
@@ -62,7 +89,6 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="md:hidden"
             onClick={() => setIsOpen(!isOpen)}
@@ -76,11 +102,10 @@ export function Navbar() {
           </button>
         </nav>
 
-        {/* Mobile Menu */}
         <div
           className={cn(
             "mt-2 overflow-hidden rounded-2xl border border-border bg-background/95 backdrop-blur-md transition-all duration-300 md:hidden",
-            isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0 border-transparent"
+            isOpen ? "max-h-96 opacity-100" : "max-h-0 border-transparent opacity-0"
           )}
         >
           <div className="flex flex-col gap-4 p-6">
@@ -94,17 +119,39 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
+
+            <div className="flex items-center gap-3 pt-2">
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={social.label}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-secondary/40 text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                )
+              })}
+            </div>
+
             <Button
               className="mt-2 w-full bg-primary text-primary-foreground hover:bg-primary/90"
-              onClick={() => { setIsOpen(false); setIsContactOpen(true) }}
+              onClick={() => {
+                setIsOpen(false)
+                setIsContactOpen(true)
+              }}
             >
-               Zamów bezpłatny projekt
+              Zamów bezpłatny projekt
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Contact Form Modal */}
       <ContactForm isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </header>
   )
