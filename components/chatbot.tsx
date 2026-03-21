@@ -6,7 +6,22 @@ import { DefaultChatTransport, UIMessage } from "ai"
 import { Bot, Loader2, MessageCircle, Send, User, X } from "lucide-react"
 
 const welcomeText =
-  "Cześć! Jestem asystentem Synapsite. Chętnie odpowiem na pytania dotyczące naszych usług - stron WWW, chatbotów AI, voicebotów i automatyzacji. W czym mogę pomóc?"
+  "Cześć! Jestem asystentem Synapsite. Chętnie odpowiem na pytania dotyczące naszych usług - stron WWW, chatbotów AI, voicebotów AI i automatyzacji. W czym mogę pomóc?"
+
+const CHATBOT_SESSION_STORAGE_KEY = "synapsite-chat-session-id"
+
+function getChatSessionId(): string {
+  if (typeof window === "undefined") {
+    return "server-session"
+  }
+
+  const existing = window.localStorage.getItem(CHATBOT_SESSION_STORAGE_KEY)
+  if (existing) return existing
+
+  const next = window.crypto?.randomUUID?.() ?? `chat-${Date.now()}`
+  window.localStorage.setItem(CHATBOT_SESSION_STORAGE_KEY, next)
+  return next
+}
 
 export function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
@@ -16,6 +31,28 @@ export function ChatbotWidget() {
   const { messages, sendMessage, status, error, clearError } = useChat<UIMessage>({
     transport: new DefaultChatTransport({
       api: "/api/chat",
+      prepareSendMessagesRequest: ({
+        api,
+        body,
+        credentials,
+        headers,
+        id,
+        messageId,
+        messages,
+        trigger,
+      }) => ({
+        api,
+        headers,
+        credentials,
+        body: {
+          ...body,
+          id,
+          messageId,
+          messages,
+          trigger,
+          sessionId: getChatSessionId(),
+        },
+      }),
     }),
   })
 
