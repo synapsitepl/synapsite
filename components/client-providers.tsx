@@ -2,11 +2,6 @@
 
 import dynamic from "next/dynamic"
 
-const GlowCursor = dynamic(
-  () => import("@/components/glow-cursor").then((mod) => ({ default: mod.GlowCursor })),
-  { ssr: false }
-)
-
 const ChatbotWidget = dynamic(
   () => import("@/components/chatbot").then((mod) => ({ default: mod.ChatbotWidget })),
   { ssr: false }
@@ -20,7 +15,6 @@ const ToasterComponent = dynamic(
 export function ClientProviders() {
   return (
     <>
-      <GlowCursor />
       <ChatbotWidget />
       <ToasterComponent />
     </>
