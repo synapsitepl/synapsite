@@ -46,10 +46,18 @@ function checkRateLimit(ip: string): string | null {
 export async function POST(req: Request) {
   try {
     // Validate API key
-    const apiKey = (process.env.OPENROUTER_API_KEY || "").trim()
-    const model = (process.env.OPENROUTER_MODEL || DEFAULT_OPENROUTER_MODEL).trim()
+    const apiKey = (
+      process.env.OPENROUTER_API_KEY ||
+      process.env.OPENAI_API_KEY ||
+      ""
+    ).trim()
+    const model = (
+      process.env.OPENROUTER_MODEL ||
+      process.env.OPENAI_MODEL ||
+      DEFAULT_OPENROUTER_MODEL
+    ).trim()
     if (!apiKey) {
-      console.error("OPENROUTER_API_KEY is not set")
+      console.error("OPENROUTER_API_KEY / OPENAI_API_KEY is not set")
       return new Response(
         JSON.stringify({ error: "Chatbot nie jest skonfigurowany." }),
         { status: 500, headers: { "Content-Type": "application/json" } }
@@ -84,12 +92,15 @@ export async function POST(req: Request) {
 
     // Extract text from the last user message for DB saving
     const lastMessage = messages[messages.length - 1]
-    const lastUserText = lastMessage?.role === "user"
-      ? lastMessage.parts
-          ?.filter((p: { type: string }) => p.type === "text")
-          .map((p: { type: string; text?: string }) => p.text)
-          .join("") || lastMessage.content || ""
-      : ""
+    const lastUserText =
+      lastMessage?.role === "user"
+        ? (
+            lastMessage.parts
+              ?.filter((p: { type: string }) => p.type === "text")
+              .map((p: { type: string; text?: string }) => p.text || "")
+              .join("") || ""
+          )
+        : ""
 
     // Save user message to DB
     let currentSessionId: string | null = null
@@ -114,7 +125,7 @@ export async function POST(req: Request) {
       model: openrouter(model),
       system: getSystemPrompt(),
       messages: await convertToModelMessages(messages),
-      maxTokens: 500,
+      maxOutputTokens: 500,
       temperature: 0.7,
       onFinish: async ({ text }) => {
         try {

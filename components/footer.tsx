@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Mail, MapPin } from "lucide-react"
+import { Facebook, Instagram, Mail, MapPin } from "lucide-react"
 
 export function Footer() {
   return (
@@ -39,6 +39,26 @@ export function Footer() {
                 <MapPin className="h-4 w-4" />
                 Lublin, Polska
               </span>
+              <div className="flex flex-wrap gap-3 pt-1">
+                <a
+                  href="https://www.instagram.com/synapsite.pl/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <Instagram className="h-4 w-4" />
+                  Instagram
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61580738136424"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <Facebook className="h-4 w-4" />
+                  Facebook
+                </a>
+              </div>
             </div>
           </div>
 
