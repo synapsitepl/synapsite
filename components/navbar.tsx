@@ -1,11 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
+import dynamic from "next/dynamic"
 import { Facebook, Instagram, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { ContactForm } from "@/components/contact-form"
+
+const ContactForm = dynamic(
+  () => import("@/components/contact-form").then((mod) => ({ default: mod.ContactForm })),
+  { ssr: false }
+)
 
 const navLinks = [
   { label: "Jak to działa", href: "#jak-to-dziala" },
@@ -36,13 +40,14 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl px-4">
         <nav className="mt-4 flex items-center justify-between rounded-full border border-border bg-background/80 px-6 py-3 backdrop-blur-md">
           <a href="#" className="flex shrink-0 items-center gap-3">
-            <Image
-              src="/logo-icon.png"
+            <img
+              src="/icon.svg"
               alt="Synapsite"
               width={44}
               height={44}
-              className="h-10 w-10 rounded-full object-cover"
-              priority
+              loading="eager"
+              decoding="async"
+              className="h-10 w-10 rounded-full"
             />
             <span className="text-xl font-semibold tracking-tight text-foreground">
               <span className="text-white">SYNAP</span>
@@ -89,11 +94,7 @@ export function Navbar() {
             </Button>
           </div>
 
-          <button
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
+          <button className="md:hidden" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
             {isOpen ? (
               <X className="h-6 w-6 text-foreground" />
             ) : (
@@ -152,7 +153,7 @@ export function Navbar() {
         </div>
       </div>
 
-      <ContactForm isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      {isContactOpen ? <ContactForm isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} /> : null}
     </header>
   )
 }
