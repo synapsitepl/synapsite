@@ -113,6 +113,7 @@ export const COMPANY: CompanyData = {
       name: "Pakiet Start",
       subtitle: "Landing page / one page",
       pricePLN: 999,
+      pricingNote: "999 zł bez CMS lub 1499 zł z CMS do samodzielnej edycji",
       idealFor:
         "Szybki start z profesjonalną obecnością online i zbieraniem zapytań.",
       features: [
@@ -120,7 +121,8 @@ export const COMPANY: CompanyData = {
         "Jedna długa strona sprzedażowa",
         "Pełna responsywność",
         "Formularz kontaktowy",
-        "CMS do samodzielnej edycji",
+        "CMS do samodzielnej edycji za dopłatą",
+        "Wersja z CMS: 1499 zł",
         "Wdrożenie techniczne",
       ],
     },
@@ -163,7 +165,7 @@ export const COMPANY: CompanyData = {
       name: "Chatbot AI",
       subtitle:
         "Chatbot AI, który odpowiada klientom nawet wtedy, gdy zespół pracuje nad czymś innym",
-      pricePLN: 2000,
+      pricePLN: 1999,
       monthlyMaintenancePLN: 200,
       idealFor:
         "Firmy, które codziennie odpowiadają na te same pytania i chcą szybciej zamieniać ruch na stronie w zapytania.",

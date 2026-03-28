@@ -61,7 +61,7 @@ export const servicesKnowledge = {
   },
   chatbot: {
     name: "Chatbot AI",
-    price: "od 2 000 zł netto (wdrożenie) + 200 zł/mc utrzymanie",
+    price: "od 1 999 zł netto (wdrożenie) + 200 zł/mc utrzymanie",
     features: [
       "Trening na danych firmy klienta",
       "Automatyczna kwalifikacja leadów",

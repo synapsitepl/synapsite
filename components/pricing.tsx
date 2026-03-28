@@ -9,13 +9,15 @@ const webPackages = [
     name: "Pakiet Start",
     subtitle: "Landing page / one page",
     price: "999",
-    description: "Idealny, jeśli chcesz szybko ruszyć z profesjonalną obecnością online i zacząć zbierać zapytania.",
+    priceLabel: "bez CMS",
+    description: "Idealny, jeśli chcesz szybko ruszyć z profesjonalną obecnością online i zacząć zbierać zapytania. Wersja z CMS do samodzielnej edycji kosztuje 1499 zł.",
     features: [
       "Nowoczesny projekt strony",
       "Jedna długa strona sprzedażowa",
       "Pełna responsywność",
       "Formularz kontaktowy",
-      "CMS do samodzielnej edycji",
+      "CMS do samodzielnej edycji za dopłatą",
+      "Wersja z CMS: 1499 zł",
       "Wdrożenie techniczne",
     ],
     cta: "Zamów landing page",
@@ -58,7 +60,7 @@ const webPackages = [
 const aiPackages = [
   {
     name: "Chatbot AI",
-    price: "2 000",
+    price: "1 999",
     monthly: "200",
     icon: Bot,
     description: "Chatbot AI, który odpowiada klientom nawet wtedy, gdy Ty pracujesz nad czymś innym",

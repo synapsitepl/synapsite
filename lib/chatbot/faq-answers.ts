@@ -32,7 +32,7 @@ const FAQ_ANSWERS: FAQAnswer[] = [
     priority: 10,
     patterns: ["ile kosztuje chatbot", "cena chatbota", "koszt chatbota"],
     answer:
-      "Chatbot AI startuje od 2 000 zł, a utrzymanie od 200 zł miesięcznie. To rozwiązanie sprawdza się szczególnie wtedy, gdy chcesz odpowiadać klientom 24/7, przedstawiać ofertę i zbierać leady.",
+      "Chatbot AI startuje od 1 999 zł, a utrzymanie od 200 zł miesięcznie. To rozwiązanie sprawdza się szczególnie wtedy, gdy chcesz odpowiadać klientom 24/7, przedstawiać ofertę i zbierać leady.",
     followUp:
       "Czy bot ma głównie odpowiadać na pytania, zbierać leady czy kwalifikować zapytania?",
   },
